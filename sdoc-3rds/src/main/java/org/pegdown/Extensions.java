@@ -1,0 +1,163 @@
+/*
+ * Copyright (C) 2010-2011 Mathias Doenitz
+ *
+ * Based on peg-markdown (C) 2008-2010 John MacFarlane
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.pegdown;
+
+public interface Extensions {
+
+    /**
+     * The default, standard markup mode without any extensions.
+     */
+    static final int NONE = 0x00;
+
+    /**
+     * Pretty ellipses, dashes and apostrophes.
+     */
+    static final int SMARTS = 0x01;
+
+    /**
+     * Pretty single and double quotes.
+     */
+    static final int QUOTES = 0x02;
+
+    /**
+     * All of the smartypants prettyfications. Equivalent to SMARTS + QUOTES.
+     * 
+     * @see <a href="http://daringfireball.net/projects/smartypants/">Smartypants</a>
+     */
+    static final int SMARTYPANTS = SMARTS + QUOTES;
+
+    /**
+     * PHP Markdown Extra style abbreviations.
+     *
+     * @see <a href="http://michelf.com/projects/php-markdown/extra/#abbr">PHP Markdown Extra</a>
+     */
+    static final int ABBREVIATIONS = 0x04;
+
+    /**
+     * Enables the parsing of hard wraps as HTML linebreaks. Similar to what github does.
+     *
+     * @see <a href="http://github.github.com/github-flavored-markdown">Github-flavored-Markdown</a>
+     */
+    static final int HARDWRAPS = 0x08;
+
+    /**
+     * Enables plain autolinks the way github flavoured markdown implements them.
+     * With this extension enabled pegdown will intelligently recognize URLs and email addresses
+     * without any further delimiters and mark them as the respective link type.
+     *
+     * @see <a href="http://github.github.com/github-flavored-markdown">Github-flavored-Markdown</a>
+     */
+    static final int AUTOLINKS = 0x10;
+
+    /**
+     * Table support similar to what Multimarkdown offers.
+     *
+     * @see <a href="http://fletcherpenney.net/multimarkdown/users_guide/">MultiMarkdown</a>
+     */
+    static final int TABLES = 0x20;
+    
+    /**
+     * PHP Markdown Extra style definition lists.
+     * Additionally supports the small extension proposed in the article referenced below.
+     *
+     * @see <a href="http://michelf.com/projects/php-markdown/extra/#def-list">PHP Markdown Extra</a>
+     * @see <a href="http://www.justatheory.com/computers/markup/modest-markdown-proposal.html">Extension proposal</a>
+     */
+    static final int DEFINITIONS = 0x40;
+
+    /**
+     * PHP Markdown Extra style fenced code blocks.
+     *
+     * @see <a href="http://michelf.com/projects/php-markdown/extra/#fenced-code-blocks">PHP Markdown Extra</a>
+     */
+    static final int FENCED_CODE_BLOCKS = 0x80;
+
+    /**
+     * Support [[Wiki-style links]]. URL rendering is performed by the active {@link LinkRenderer}.
+     *
+     * @see <a href="http://github.github.com/github-flavored-markdown">Github-flavored-Markdown</a>
+     */
+    static final int WIKILINKS = 0x100;
+
+    /**
+     * Support ~~strikethroughs~~ as supported in Pandoc and Github.
+     */
+    static final int STRIKETHROUGH = 0x200;
+
+    /**
+     * Enables anchor links in headers.
+     */
+    static final int ANCHORLINKS = 0x400;
+
+    /**
+     * All available extensions excluding the SUPPRESS_... options, ATXHEADERSPACE. FORCELISTITEMPARA
+     */
+    static final int ALL = 0x0000FFFF;
+
+    /**
+     * Suppresses HTML blocks. They will be accepted in the input but not be contained in the output.
+     */
+    static final int SUPPRESS_HTML_BLOCKS = 0x00010000;
+
+    /**
+     * Suppresses inline HTML tags. They will be accepted in the input but not be contained in the output.
+     */
+    static final int SUPPRESS_INLINE_HTML = 0x00020000;
+
+    /**
+     * Suppresses HTML blocks as well as inline HTML tags.
+     * Both will be accepted in the input but not be contained in the output.
+     */
+    static final int SUPPRESS_ALL_HTML = 0x00030000;
+
+    /**
+     * Requires a space char after Atx # header prefixes, so that #dasdsdaf is not a header.
+     */
+    static final int ATXHEADERSPACE = 0x00040000;
+
+    /**
+     * Force List and Definition Paragraph wrapping if it includes more than just a single paragraph
+     */
+    static final int FORCELISTITEMPARA = 0x00080000;
+
+    /**
+     * Allow horizontal rules without a blank line following them.
+     */
+    static final int RELAXEDHRULES = 0x00100000;
+
+    /**
+     * GitHub style task list items: - [ ] and - [x]
+     */
+    static final int TASKLISTITEMS = 0x00200000;
+
+    /**
+     * Generate anchor links for headers using complete contents of the header.
+     * Spaces and non-alphanumerics replaced by `-`, multiple dashes trimmed to one.
+     * Anchor link is added as first element inside the header with empty content: `<h1><a name="header-a"></a>header a</h1>`
+     */
+    static final int EXTANCHORLINKS = 0x00400000;
+
+    /**
+     * All Optionals other than Suppress and FORCELISTITEMPARA which is a backwards compatibility extension
+     *
+     */
+
+    static final int ALL_OPTIONALS = (ATXHEADERSPACE  | RELAXEDHRULES | TASKLISTITEMS | EXTANCHORLINKS);
+    static final int ALL_WITH_OPTIONALS = ALL | (ATXHEADERSPACE  | RELAXEDHRULES | TASKLISTITEMS);
+}
